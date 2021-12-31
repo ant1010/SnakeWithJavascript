@@ -5,6 +5,7 @@ let COLS = 50;
 let PIXEL = 20;
 
 let pixels = new Map();
+let snakePositions = new Set();
 
 function initializeCanvas(){
 
@@ -36,7 +37,7 @@ drawSnake([
 ])
 
 function drawSnake(snake){
-    let snakePositions = new Set();
+    snakePositions.clear();
     for(let [x,y] of snake){
         let position = x + '_' + y;
         snakePositions.add(position);
@@ -80,7 +81,10 @@ function drawSnake(snake){
      
      currentDirection = nextDirection;
      let nextHead = currentDirection(head);
-     
+     if(!isValidNext(snakePositions,nextHead)){
+         endGame();
+         return;
+     }
      currentSnake.push(nextHead);
      
 
@@ -138,9 +142,25 @@ function areOpposite(dir1,dir2){
 
  drawSnake(currentSnake);
 
- 
+function isValidNext(snakePosition,[row,col]){
+    if(row < 0 || col < 0){
+        return false;
+    }
+    if(row > ROWS || col > COLS){
+        return false;
+    }
+    let position = row + "_" + col;
+    if(snakePosition.has(position)){
+        return false;
+    }
+    return true;
+}
+function endGame(){
+    canvas.style.borderColor  = 'red';
+    clearInterval(gameInterval);
+}
 
-setInterval(()=>{
+let gameInterval = setInterval(()=>{
     step();
 },100);
 
