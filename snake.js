@@ -56,38 +56,80 @@ function drawSnake(snake){
      [0,0],
      [0,1],
      [0,2],
-     [0,3]
+     [0,3],
+     [0,4],
+     [0,5],
+     [0,6],
+     [0,7]
  ]
  
 
  function step(){
      currentSnake.shift();
      let head = currentSnake[currentSnake.length-1]
+     let nextDirection = currentDirection;
+     while(directionQueue.length > 0){
+     let candidateDirection = directionQueue.shift();
+     if(areOpposite(candidateDirection,currentDirection)){
+        continue;
+     }
+     nextDirection = candidateDirection;
+     break;
+    }
+
+     
+     currentDirection = nextDirection;
      let nextHead = currentDirection(head);
+     
      currentSnake.push(nextHead);
      
+
      drawSnake(currentSnake);
 
  }
+function areOpposite(dir1,dir2){
+
+    if(dir1 === moveLeft && dir2 === moveRight){
+        return true;
+    }
+    if(dir1 === moveRight && dir2 === moveLeft){
+        return true;
+    }
+    if(dir1 === moveUp && dir2 === moveDown){
+        return true;
+    }
+    
+    if(dir1 === moveDown && dir2 === moveUp){
+        return true;
+    }
+
+        return false;
+    
+
+    
+}
  let moveRight = ([r,c]) => [r,c + 1]; 
  let moveLeft = ([r,c]) => [r,c - 1]; 
  let moveUp = ([r,c]) => [r - 1,c]; 
  let moveDown = ([r,c]) => [r + 1,c]; 
- let currentDirection = moveDown;
-
+ let currentDirection = moveRight;
+ let directionQueue = [];
+ 
+ 
  window.addEventListener('keydown',(e) =>{
      switch(e.key){
          case "ArrowDown":
-         currentDirection = moveDown;
+         directionQueue.push(moveDown);
          break;
          case "ArrowUp":
-         currentDirection = moveUp;
+         
+         directionQueue.push(moveUp)
          break;
          case "ArrowLeft":
-         currentDirection = moveLeft;
+         directionQueue.push(moveLeft);
          break;
          case "ArrowRight":
-         currentDirection = moveRight;
+         directionQueue.push(moveRight);
          break;
 
      }
