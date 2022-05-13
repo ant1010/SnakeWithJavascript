@@ -8,7 +8,7 @@ console.log(w);
 console.log(h);
 let ROWS = (h/20)-2//30;
 let COLS = (w/20)-2//50;
-let PIXEL = 20.;
+let PIXEL = 20;
 let gameStatus = "inactive";
 let pixels = new Map();
 let snakePositions = new Set();
@@ -257,6 +257,7 @@ function gameController(command,speed){
             gameStatus="inactive";
             clearInterval(gameInterval);
             speed-=20;
+                                    
             gameController("start",speed)
            
             }
@@ -313,6 +314,8 @@ function handleTouchMove(evt) {
         if ( yDiff > 0 ) {
             /* up swipe */
              directionQueue.push(moveUp);
+            let food = makeFood();
+            foodPositions.set(food);
         } else {
             /* down swipe */
              directionQueue.push(moveDown);
