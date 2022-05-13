@@ -1,0 +1,57 @@
+
+<div id = "canvas" scroll="no" style="overflow: hidden">
+<div><h2 id = "score-board"></h2></div>
+</div>
+
+
+<style>
+    #canvas {
+        width:98%;
+        height: 98%;
+        border: 5px solid white;
+        position: relative;
+        box-sizing: content-box;
+        background-color:black;
+        margin:0;
+       
+            }
+
+    *{
+        box-sizing: border-box;
+        background-color:black;
+
+        
+    }
+#score-board{
+    z-index: 9;
+    margin: 20px;
+    position: absolute;
+    font-size:30px;
+    color: white;
+    
+}
+
+@keyframes pulse2 {
+    0% {
+        outline-color: 1px solid rgb(0, 0, 0);
+        background-color: white;
+        width:0px;
+        height:0px;
+        
+    }
+    50%{
+        outline-color: 10px solid black;
+       
+        
+        
+    }
+    100% {
+        /* outline: 3px solid rgba(17, 109, 121, 0.897);   */
+        outline-color: 1px black;
+        background-color: white;
+        width:20px;
+        height:20px;
+    }
+</style>
+
+<script  src = "snake.js"></script>
