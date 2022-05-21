@@ -5,7 +5,7 @@ const Datastore = require('nedb');
 
 const app = express.Router();
 //app.listen(3000, () => console.log('listening at 3000'));
-app.use(express.static('public'));
+//app.use(express.static('public'));
 //const database = new Datastore('database.db');
 //database.loadDatabase();
 //
