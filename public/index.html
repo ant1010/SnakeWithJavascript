@@ -1,33 +1,232 @@
 
+<body>
 <div id = "canvas" scroll="no" style="overflow: hidden">
-<div><h2 id = "score-board"></h2></div>
+<div><h2 id = "score-corner"></h2></div>
 </div>
 
-
+<div id="prompt-form-container">
+    <form id="prompt-form">
+        <div id="prompt-message">welcome to snake
+            </div>
+        <input name="text" type="text"  placeholder="   Your Name...">
+            <input id = "btn" type="submit" name ="ok" value="Ok">
+                
+                    </form>
+    </div>
+<div id="myModal" class="modal">
+    
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class "c2">
+            <p class = "modal-text" id ="modalText">Game Over <br> Your score: <br> <p>
+            <p class = "modal-text" id ="modalText3">Your Highest:  <br>  <p>
+            <p class = "modal-text" id ="modalText2">Top Score:  <br>  <p>
+            
+        <button class = "close"id="myBtn">Play Again</button>
+        </div>
+    </div>
+    
+</div>
+<div id = "start-modal" class="modal start-screen">
+    
+    <!-- Modal content -->
+    <div  class="modal-content start-content">
+        <p class = "modal-text start-text" id ="modalText">Press Space Bar/<button class = "close"id="start">Start</button> to play  </p>
+        
+    </div>
+    
+</div>
+</body>
 <style>
+    
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color:#3A2E39
+        
+    }
+    .modal {
+        display: none; /* Hidden by default */
+        position: absolute; /* Stay in place */
+        z-index: 2; /* Sit on top */
+         /* Location of the box */
+        
+        top: 0;
+        width: 100vw; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: #F4D8CD; /* Fallback color */
+        /* Black w/ opacity */
+       
+        font-style:verdana;
+    }
+.start-screen {
+    display:flex;
+    width:100vw;
+    
+}
+
+
+.modal-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F4D8CD;
+   
+    margin: auto;
+    
+     width:100%;
+    height:100%;
+    border-radius: 15px;
+   
+}
+
+.start-content{
+    border: 0px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:transparent;
+    
+}
+
+.modal-text{
+    
+    font-size: 32px;
+    font-weight: bold;
+    font-family: verdana;
+    background-color:transparent;
+}
+.start-text{
+ 
+    top: 300px;
+    font-family: verdana;
+}
+
+.close {
+    font-family: verdana;
+    color: white;
+    margin: 1px;
+    font-size: 28px;
+    letter-spacing: 4px;
+    border: 5px solid white;
+    border-radius :10px;
+    box-shadow: 0 0 10px rgb(0, 0, 0, 1);
+    background:#3A2E39;
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, .5);
+}
+
+.close:focus{
+border: 2px solid gray;
+    
+}
+.close:hover {
+    background: #EDB183;
+    text-decoration: none;
+    cursor: pointer;
+  
+    
+}
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+#prompt-form {
+   
+    font-style:verdana;
+    display: inline-block;
+    height:auto;
+    width: auto;
+    border: 10px solid #3A2E39;
+    background: #F4D8CD;
+    vertical-align: middle;
+    border-radius:20px;
+    
+    justify-content: center;
+}
+#prompt-message{
+   
+   background-color: #F4D8CD;
+    border-radius:20px;
+    font-weight:bold;
+    font-size: 20px;
+    
+}
+#prompt-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    display:none;
+   
+  
+    
+}
+
+#btn{
+    background:#F4D8CD;
+    border-radius:15px;
+    border: 1px solid  #3A2E39;
+    font-weight:bold;
+    margin:5px;
+    padding:2px;
+    width:30%;
+    height:auto;
+}
+#prompt-form-container:before {
+    display: inline-block;
+    height: 100%;
+    content: '';
+    vertical-align: middle;
+  
+}
+
+#prompt-form input[name="text"] {
+    display: inline-block;
+    float:inline;
+    margin: 5px 5px 5px 5px;
+    height:32px;
+    width: auto;
+    background:white;
+    border-radius:15px;
+    border: 1px solid #3A2E39;
+    font-style:sans-serif;
+    font-weight: bold;
+    font-size:16px;
+  
+}
     #canvas {
         width:99%;
         height: 99%;
-        border: 5px solid white;
+        border: 0px solid #3A2E39;
         position: relative;
         box-sizing: content-box;
-        background-color:black;
+        background-color:#F4D8CD;
         margin:0;
        
             }
 
     *{
         box-sizing: border-box;
-        background-color:black;
+        background-color:#F4D8CD;
 
         
     }
-#score-board{
-    z-index: 9;
+#score-corner{
+    z-index: 1;
     margin: 20px;
     position: absolute;
     font-size:5vh;
-    color: white;
+    
+    background:transparent;
     
 }
 
@@ -52,6 +251,7 @@
         width:20px;
         height:20px;
     }
+   
 </style>
 
 <script  src = "snake.js"></script>
