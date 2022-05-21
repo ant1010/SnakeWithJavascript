@@ -13,7 +13,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "public/snake.js"
+            "dest": "/public"
         }
     ]
 }
