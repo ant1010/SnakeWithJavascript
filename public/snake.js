@@ -186,7 +186,7 @@ async function updateHighScore(){
     },
     body: JSON.stringify(data)
     };
-    let response = await fetch('/api', options);
+    let response = await fetch('a',options);
     let json = await response.json();
     
 
@@ -206,6 +206,10 @@ async function hasPrevScore(){
     if(json.length > 0){
         var currentTopScores = document.getElementById("modalText3");
         var currentTopScore = document.createTextNode(`${json[0].score}`);
+        currentTopScores.appendChild(currentTopScore);
+    }else{
+        var currentTopScores = document.getElementById("modalText3");
+        var currentTopScore = document.createTextNode(`${score}`);
         currentTopScores.appendChild(currentTopScore);
     }
     
@@ -228,7 +232,7 @@ async function getHighScore(){
     }
     };
  
-    let response = await fetch('/api', options);
+    let response = await fetch('p');
     let json = await response.json();
     console.log(json);
     let highest = 0;
