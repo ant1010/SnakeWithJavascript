@@ -2,14 +2,17 @@
 
 const express = require('express');
 const Datastore = require('nedb');
-
-const app = express.Router();
+const path = require('path');
+const router = express.Router();
 //app.listen(3000, () => console.log('listening at 3000'));
-
+router.use(express.static('public'))
+router.get('/', (req, res) => {
+                res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+                })
 const database = new Datastore('database.db');
 database.loadDatabase();
 
-app.get('/p', (request, response) => {
+router.get('/p', (request, response) => {
         console.log("here1");
         database.find({}, (err, data) => {
 
@@ -20,7 +23,7 @@ app.get('/p', (request, response) => {
                       response.json(data);
                       });
         });
-app.get('/scores/:user', (request, response) => {
+router.get('/scores/:user', (request, response) => {
         console.log("here2");
         let users  =  request.params.user;
         database.find({user:users}, (err, data) => {
@@ -34,7 +37,7 @@ app.get('/scores/:user', (request, response) => {
                       });
         });
 
-app.post('/a', (request, response) => {
+router.post('/a', (request, response) => {
          console.log("here3");
          const data = request.body;
          const timestamp = Date.now();
@@ -49,7 +52,7 @@ app.post('/a', (request, response) => {
          response.json(data);
 
          });
-module.exports = app;
+module.exports = router;
 
 //CLEARS DB
 //database.remove({}, { multi: true }, function (err, numRemoved) {
