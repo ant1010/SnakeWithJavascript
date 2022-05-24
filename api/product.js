@@ -5,10 +5,7 @@ const Datastore = require('nedb');
 const path = require('path');
 const router = express.Router();
 //app.listen(3000, () => console.log('listening at 3000'));
-router.use(express.static('public'))
-router.get('/', (req, res) => {
-                res.sendFile('index.html', {root: path.join(__dirname, 'public')});
-                })
+
 const database = new Datastore('database.db');
 database.loadDatabase();
 
@@ -52,6 +49,10 @@ router.post('/a', (request, response) => {
          response.json(data);
 
          });
+router.use(express.static('public'))
+//router.get('/', (req, res) => {
+//           res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+//           })
 module.exports = router;
 
 //CLEARS DB
