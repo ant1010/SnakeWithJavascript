@@ -49,7 +49,7 @@ router.post('/a', (request, response) => {
          response.json(data);
 
          });
-router.use(express.static('public'))
+//router.use(express.static('/public'))
 //router.get('/', (req, res) => {
 //           res.sendFile('index.html', {root: path.join(__dirname, 'public')});
 //           })
