@@ -186,7 +186,7 @@ async function updateHighScore(){
     },
     body: JSON.stringify(data)
     };
-    let response = await fetch('a',options);
+    let response = await fetch('/api/a',options);
     let json = await response.json();
     
 
@@ -200,7 +200,7 @@ async function hasPrevScore(){
     }
     };
     console.log(user);
-    let url = `scores/${user}`;
+    let url = `/api/scores/${user}`;
     let json = await fetch(url).then((data) => data.json());
     console.log(json);
     if(json.length > 0){
@@ -232,7 +232,7 @@ async function getHighScore(){
     }
     };
  
-    let response = await fetch('p');
+    let response = await fetch('/api');
     let json = await response.json();
     console.log(json);
     let highest = 0;
