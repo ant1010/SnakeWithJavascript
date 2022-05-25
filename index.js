@@ -26,14 +26,15 @@ app.get('/', (req, res) => {
 
 app.get('/p', (request, response) => {
                    console.log("here1");
-                   database.find({}, (err, data) => {
-           
-                                 if (err) {
-                                 response.end();
-                                 return;
-                                 }
-                                 response.json(data);
-                                 });
+        try {
+        response.json({
+                 status: 200,
+                 message: "Get data has successfully",
+                 });
+        } catch (error) {
+        console.error(error);
+        return response.status(500).send("Server error");
+        }
                    });
 
 
