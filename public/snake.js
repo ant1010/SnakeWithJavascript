@@ -498,6 +498,8 @@ function getTouches(evt) {
 }
 
 function handleTouchStart(evt) {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
     let speed = 120;
     gameController("start",speed);
     const firstTouch = getTouches(evt)[0];
