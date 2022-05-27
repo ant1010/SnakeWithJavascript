@@ -10,30 +10,49 @@ initGlobalVariables();
 initializeCanvas();
 window.onload = function(){
     user = sessionStorage.getItem('user')
-    if(sessionStorage.getItem('player') == "true"){
+    if(sessionStorage.getItem('player') == "true" && user != "Anonymous" ){
+        console.log("user:" + user);
         prev = "true";
-        
-        
-    }else{
         form1 = document.getElementById("prompt-form-container");
-        form1.style.display = "inline-block";
+        startScreen =  document.getElementById("start-modal");
+        startText =  document.getElementById("modalText");
+        console.log("does it work" + user);
+        
+            
+            form1.style.display = "none";
+            startScreen.style.display = "none";
+            startText.style.display = "inline-block";
+        
+
+    }else{
+//        form1 = document.getElementById("prompt-form-container");
+//        form1.style.display = "inline-block";
     }
     }
-window.onbeforeunload = function(){
+window.addEventListener( 'unload', ()=>{
     sessionStorage.setItem("player", "true");
     sessionStorage.setItem("user", user);
     
+                        });
+form1 = document.getElementById("prompt-form-container");
+startScreen =  document.getElementById("start-modal");
+startText =  document.getElementById("modalText");
+console.log("does it work" + user);
+if(user != "null"){
+    
+    form1.style.display = "none";
+    startScreen.style.display = "none";
+    startText.style.display = "inline-block";
 }
+function touchStart(){
+    gameController("start",150);
+}
+
 
 function initGlobalVariables(){
    
      canvas = document.getElementById('canvas');
-     form1 = document.getElementById("prompt-form-container");
     
-    if(prev === "true"){
-      
-        form1.style.display = "none";
-    }
      w = window.innerWidth;
      h = window.innerHeight;
      ROWS = ((h/20))-2//30;
@@ -52,7 +71,7 @@ function initGlobalVariables(){
         PIXEL = 60;
     }
     
-    user = "Anonymous";
+    user = "null";
      gameStatus = "inactive";
      pixels = new Map();
      snakePositions = new Set();
@@ -61,7 +80,7 @@ function initGlobalVariables(){
      score = 0;
      scoreboard = document.createTextNode(`${score}`);
     
-     board = document.getElementById('score-corner');
+    board = document.getElementById('score-corner');
     board.appendChild(scoreboard);
    
     form = document.getElementById('prompt-form');
@@ -73,8 +92,11 @@ function initGlobalVariables(){
                           console.log(user);
                           event.preventDefault();
                           form1.style.display = "none";
+                          updateHighScore();
+                          getHighScore();
+                          
                           }else{
-                           user = "Anonymous";
+                           user = "null";
                           
                           }
                           });
@@ -97,10 +119,14 @@ function initGlobalVariables(){
 function gameController(command,speed){
     
     if(command == "start" && gameStatus != "active"){
+        document.addEventListener('touchstart', handleTouchStart, false);
+        document.addEventListener('touchmove', handleTouchMove, false);
         let s = document.getElementById("start-modal");
         s.style.display = "none";
         drawSnake(currentSnake);
         gameStatus = "active";
+        tapStartText = document.getElementById("tapStartText");
+        tapStartText.style.display = "none";
         gameInterval = setInterval(()=>{
                                    if(score%5 == 0 && score != 0 && speed >=50){
                                    score++;
@@ -115,9 +141,10 @@ function gameController(command,speed){
                                    },speed);
     }
     if(command == "end"){
-        
+        if(user != "null"){
         updateHighScore();
         getHighScore();
+        }
         gameStatus = "inactive";
         canvas.style.borderColor  = 'red';
         clearInterval(gameInterval);
@@ -130,7 +157,7 @@ function detectMob() {
     return ( ( window.innerWidth <= 400 ) && ( window.innerHeight <= 300 ) );
 }
 function initializeCanvas(){
-    console.log("initcanvas");
+    
     for(let i = 0; i < ROWS; i++){
         for( let j = 0; j < COLS; j++){
             let pixel = document.createElement('div');
@@ -158,8 +185,55 @@ function initializeCanvas(){
     
     
 }
-async function updateHighScore(){
+
+
+
+
+function gameOver(){
+    window.removeEventListener('keydown',gameControls);
+    document.removeEventListener('touchstart', handleTouchStart, false);
+    document.removeEventListener('touchmove', handleTouchMove, false);
     
+    console.log("user"+user);
+    if(user == "Anonymous" || user == "null"){
+        form1 = document.getElementById("prompt-form-container");
+        form1.style.display = "inline-block";
+        
+    }
+    var modal = document.getElementById("myModal");
+    
+    // Get the <span> element that closes the modal
+    var close = document.getElementById("play-again");
+    modal.style.display = "block";
+    var scoreText = document.getElementById("modalText");
+    var finalScore = document.createTextNode(`${score}`);
+    scoreText.appendChild(finalScore);
+    
+    
+    // When the user clicks "play again"
+    close.onclick = function() {
+        location.reload();
+    }
+    close.onTouch = function() {
+        location.reload();
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            location.reload();
+        }
+    }}
+
+
+
+
+async function updateHighScore(){
+    if(user == "null" || user == "Anonymous"){
+        console.log("user is " + user );
+        return;
+    }
     let prevscore = await hasPrevScore();
     console.log(prevscore);
     let update = true;
@@ -192,6 +266,13 @@ async function updateHighScore(){
 
 }
 async function hasPrevScore(){
+    if(user == "null" || user == "Anonymous"){
+        return;
+    }
+    var youDied = document.getElementById("modalText0");
+    youDied.style.color = "red";
+    var diedBanner = document.createTextNode(`${user}, you DIED.`);
+    youDied.appendChild(diedBanner);
     
     let options = {
     method: 'GET',
@@ -246,11 +327,12 @@ async function getHighScore(){
     }
     console.log(highest);
     //confirm("Highest score:" + highest);
-   
+    if(user != "null"){
     var topScores = document.getElementById("modalText2");
     var topScore = document.createTextNode(`${scoreUser}: ` + `${highest}`);
    
     topScores.appendChild(topScore);
+    }
     return highest;
 }
 
@@ -317,8 +399,8 @@ function drawSnake(snake){
 
             }else if(snakePositions.has(position) && foodPositions.has(position)){
                   pixel.style.background = snakeColor;
-                pixel.style.borderRadius = "0px";
-                 foodPositions.delete(position);
+                  pixel.style.borderRadius = "0px";
+                  foodPositions.delete(position);
                   updateScore();
             }
            
@@ -357,7 +439,7 @@ function drawSnake(snake){
      currentSnake.push(nextHead);
      
 
-    drawSnake(currentSnake);
+     drawSnake(currentSnake);
     
 
  }
@@ -388,11 +470,12 @@ function areOpposite(dir1,dir2){
  let moveDown = ([r,c]) => [r + 1,c]; 
  let currentDirection = moveRight;
  let directionQueue = [];
-var start= document.getElementsByClassName("close")[1];
+var start= document.getElementById("start");
 let modal =  document.getElementById("start-modal");
 start.onclick = function() {
     modal.style.display = "none";
-     gameController("start",100);
+    console.log("start");
+    gameController("start",100);
     
 }
 
@@ -455,44 +538,9 @@ function isValidNext(snakePosition,[row,col]){
     return true;
 }
 
-function gameOver(){
-    window.removeEventListener('keydown',gameControls);
-    document.removeEventListener('touchstart', handleTouchStart, false);
-    document.removeEventListener('touchmove', handleTouchMove, false);
-    var modal = document.getElementById("myModal");
-    
-    // Get the <span> element that closes the modal
-    var close = document.getElementsByClassName("close")[0];
-    modal.style.display = "block";
-    var scoreText = document.getElementById("modalText");
-     var finalScore = document.createTextNode(`${score}`);
-    
-    
-    scoreText.appendChild(finalScore);
-   
-    // When the user clicks "play again"
-   
-    close.onclick = function() {
-        modal.style.display = "none";
-       
-        
-         location.reload();
-    }
-    close.onTouch = function() {
-        modal.style.display = "none";
-        
-        
-        location.reload();
-    }
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-             location.reload();
-        }
-    }}
-document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
+
+//document.addEventListener('touchstart', handleTouchStart, false);
+//document.addEventListener('touchmove', handleTouchMove, false);
 
 var xDown = null;
 var yDown = null;
