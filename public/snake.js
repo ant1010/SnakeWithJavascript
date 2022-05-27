@@ -8,42 +8,29 @@ let snakeColor = "#1E555C";
 let foodColor = "#F15152";
 initGlobalVariables();
 initializeCanvas();
-window.onload = function(){
+window.addEventListener( 'load', ()=>{
     user = sessionStorage.getItem('user')
-    if(sessionStorage.getItem('player') == "true" && user != "Anonymous" ){
+    startScreen =  document.getElementById("start-modal");
+   
+    if(sessionStorage.getItem('user') != null && user != "null" ){
         console.log("user:" + user);
         prev = "true";
-        form1 = document.getElementById("prompt-form-container");
-        startScreen =  document.getElementById("start-modal");
-        startText =  document.getElementById("modalText");
         console.log("does it work" + user);
-        
-            
-            form1.style.display = "none";
-            startScreen.style.display = "none";
-            startText.style.display = "inline-block";
-        
-
+                        tapStartText = document.getElementById("tapStartText");
+                        tapStartText.style.display = "block";
+    
     }else{
-//        form1 = document.getElementById("prompt-form-container");
-//        form1.style.display = "inline-block";
-    }
-    }
+                        
+                        startScreen.style.display = "block";
+
+                        }
+                        });
 window.addEventListener( 'unload', ()=>{
     sessionStorage.setItem("player", "true");
     sessionStorage.setItem("user", user);
     
                         });
-form1 = document.getElementById("prompt-form-container");
-startScreen =  document.getElementById("start-modal");
-startText =  document.getElementById("modalText");
-console.log("does it work" + user);
-if(user != "null"){
-    
-    form1.style.display = "none";
-    startScreen.style.display = "none";
-    startText.style.display = "inline-block";
-}
+
 function touchStart(){
     gameController("start",150);
 }
@@ -51,9 +38,9 @@ function touchStart(){
 
 function initGlobalVariables(){
    
-     canvas = document.getElementById('canvas');
+    canvas = document.getElementById('canvas');
     
-     w = window.innerWidth;
+    w = window.innerWidth;
      h = window.innerHeight;
      ROWS = ((h/20))-2//30;
      COLS = ((w/20))-2//50;
@@ -80,26 +67,9 @@ function initGlobalVariables(){
      score = 0;
      scoreboard = document.createTextNode(`${score}`);
     
-    board = document.getElementById('score-corner');
-    board.appendChild(scoreboard);
-   
-    form = document.getElementById('prompt-form');
-    
-    form.addEventListener('submit', (event) => {
-                          const name = form.elements['text'];
-                          if(name.value.length > 0){
-                          user = name.value;
-                          console.log(user);
-                          event.preventDefault();
-                          form1.style.display = "none";
-                          updateHighScore();
-                          getHighScore();
-                          
-                          }else{
-                           user = "null";
-                          
-                          }
-                          });
+     board = document.getElementById('score-corner');
+     board.appendChild(scoreboard);
+  
    
     console.log("score:" + score);
      currentSnake = [
@@ -141,7 +111,8 @@ function gameController(command,speed){
                                    },speed);
     }
     if(command == "end"){
-        if(user == "Anonymous" || user == null){
+       
+        if(user == "null" || user == null){
             form1 = document.getElementById("prompt-form-container");
             form1.style.display = "inline-block";
             
@@ -165,7 +136,8 @@ function detectMob() {
     return ( ( window.innerWidth <= 400 ) && ( window.innerHeight <= 300 ) );
 }
 function initializeCanvas(){
-    
+   
+
     for(let i = 0; i < ROWS; i++){
         for( let j = 0; j < COLS; j++){
             let pixel = document.createElement('div');
@@ -206,29 +178,15 @@ function gameOver(){
     
     var modal = document.getElementById("myModal");
     
-    // Get the <span> element that closes the modal
-    var close = document.getElementById("play-again");
+    var home = document.getElementById("home-restart");
     modal.style.display = "block";
-    var scoreText = document.getElementById("modalText");
+    var scoreText = document.getElementById("modalText4");
     var finalScore = document.createTextNode(`${score}`);
     scoreText.appendChild(finalScore);
     
     
-    // When the user clicks "play again"
-    close.onclick = function() {
-        location.reload();
-    }
-    close.onTouch = function() {
-        location.reload();
-    }
-    
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-            location.reload();
-        }
-    }}
+   
+   }
 
 
 
@@ -420,6 +378,12 @@ function drawSnake(snake){
  
 
  function step(){
+     let  hint = document.getElementById('hint');
+     if(score >= 5){
+         hint.style.display = "block";
+     } if(score >= 10){
+         hint.style.display = "none";
+     }
      currentSnake.shift();
     
      let head = currentSnake[currentSnake.length-1]
@@ -474,14 +438,7 @@ function areOpposite(dir1,dir2){
  let moveDown = ([r,c]) => [r + 1,c]; 
  let currentDirection = moveRight;
  let directionQueue = [];
-var start= document.getElementById("start");
-let modal =  document.getElementById("start-modal");
-start.onclick = function() {
-    modal.style.display = "none";
-    console.log("start");
-    gameController("start",100);
-    
-}
+
 
  
 window.addEventListener('keydown',gameControls);
@@ -543,9 +500,6 @@ function isValidNext(snakePosition,[row,col]){
 }
 
 
-//document.addEventListener('touchstart', handleTouchStart, false);
-//document.addEventListener('touchmove', handleTouchMove, false);
-
 var xDown = null;
 var yDown = null;
 
@@ -599,3 +553,42 @@ function handleTouchMove(evt) {
     yDown = null;
 };
 
+function nameSubmitForm(){
+    form = document.getElementById('prompt-form');
+    const name = form.elements['text'];
+    if(name.value.length > 0){
+        user = name.value;
+        console.log(user);
+        event.preventDefault();
+        updateHighScore();
+        getHighScore();
+        
+    }else{
+        user = "null";
+        
+    }
+     console.log("form" + name.value);
+    
+     form1.style.display = "none";
+}
+function playAgainClick(){
+    location.reload();
+    console.log("playagain");
+    startScreen =  document.getElementById("start-modal");
+    startScreen.style.display = "none";
+    
+}
+function homeResetClick(){
+    
+    user = "null";
+    location.reload();
+    
+}
+
+function startClick(){
+    console.log("start");
+    startScreen =  document.getElementById("start-modal");
+    startScreen.style.display = "none";
+    gameController("start",150);
+    
+}
