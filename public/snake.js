@@ -71,7 +71,7 @@ function initGlobalVariables(){
         PIXEL = 60;
     }
     
-    user = "null";
+     user = "null";
      gameStatus = "inactive";
      pixels = new Map();
      snakePositions = new Set();
@@ -141,10 +141,18 @@ function gameController(command,speed){
                                    },speed);
     }
     if(command == "end"){
-        if(user != "null"){
+        if(user == "Anonymous" || user == null){
+            form1 = document.getElementById("prompt-form-container");
+            form1.style.display = "inline-block";
+            
+        }
+        
+        if(user != null){
+        console.log("user149:" + user);
         updateHighScore();
         getHighScore();
         }
+        
         gameStatus = "inactive";
         canvas.style.borderColor  = 'red';
         clearInterval(gameInterval);
@@ -195,11 +203,7 @@ function gameOver(){
     document.removeEventListener('touchmove', handleTouchMove, false);
     
     console.log("user"+user);
-    if(user == "Anonymous" || user == "null"){
-        form1 = document.getElementById("prompt-form-container");
-        form1.style.display = "inline-block";
-        
-    }
+    
     var modal = document.getElementById("myModal");
     
     // Get the <span> element that closes the modal
