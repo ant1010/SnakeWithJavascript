@@ -27,7 +27,7 @@ app.use(express.static('public'))
 
 
 app.get('/api', (request, response) => {
-           console.log("here1");
+        
            database.find({}, (err, data) => {
 
                          if (err) {
@@ -38,7 +38,7 @@ app.get('/api', (request, response) => {
                          });
            });
 app.get('/api/scores/:user', (request, response) => {
-           console.log("here2");
+          
            let users  =  request.params.user;
            database.find({user:users}, (err, data) => {
 
@@ -52,7 +52,7 @@ app.get('/api/scores/:user', (request, response) => {
            });
 
 app.post('/api/a', (request, response) => {
-            console.log("here3");
+           
             const data = request.body;
             const timestamp = Date.now();
             data.timestamp = timestamp;
@@ -72,4 +72,4 @@ const PORT = process.env.PORT || 8080;
 
 
 app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
-module.exports = app
+module.exports = app;
