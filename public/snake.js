@@ -222,7 +222,7 @@ async function updateHighScore(){
     },
     body: JSON.stringify(data)
     };
-    let response = await fetch('https://snake-with-javascript.vercel.app/api/a',options);
+    let response = await fetch('/api/a',options);
     let json = await response.json();
     
 
@@ -275,7 +275,7 @@ async function getHighScore(){
     }
     };
  
-    let response = await fetch('https://snake-with-javascript.vercel.app/api');
+    let response = await fetch('/api');
     let json = await response.json();
     console.log(json);
     let highest = 0;
