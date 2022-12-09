@@ -3,10 +3,11 @@
 const express = require("express");
 const app = express();
 const path = require('path');
+var cors = require('cors');
 const Datastore = require('nedb');
 //const product = require("./api/product");
 //app.use(express.json({ limit: '1mb' }));
-
+app.use(cors());
 app.use(express.json({ extended: false }));
 //app.use("/api/product", product);
 //app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
@@ -18,7 +19,7 @@ app.use(express.json({ extended: false }));
 const database = new Datastore('database.db');
 database.loadDatabase();
 
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, '../public')))
 
 //app.get('/', (req, res) => {
 //        res.sendFile('index.html', {root: path.join(__dirname, 'public')});
