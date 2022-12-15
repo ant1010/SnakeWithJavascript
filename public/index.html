@@ -63,7 +63,7 @@
     }
 ul{
    
-    background-color: rgba(51, 170, 51, .1);
+    background-color: #F4D8CD;
     
     list-style-type: none;
     padding: 10px 20px;
@@ -112,12 +112,13 @@ img{
         position: absolute; /* Stay in place */
         z-index: 2; /* Sit on top */
          /* Location of the box */
-        
+       
         top: 0;
         width: 100vw; /* Full width */
         height: 100%; /* Full height */
         overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(255, 255, 255); /* Fallback color */
+        background-color: #F4D8CD; /* Fallback color */
+        
         /* Black w/ opacity */
        
         font-style:verdana;
@@ -146,15 +147,16 @@ img{
 .modal-content {
     display: inline-block;
    
-   background-color: #F4D8CD;
+   background-color: transparent;
     
     margin: auto;
-    
-    
+   border: 2px solid black;
+    padding: 7px;
     border-radius: 15px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 8px 10px #888888;
     position: absolute;
     
 }
@@ -173,6 +175,7 @@ img{
     background-color:transparent;
     text-align:center;
 }
+
 .start-text{
  
      font-family: verdana;

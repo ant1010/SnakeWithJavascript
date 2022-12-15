@@ -180,6 +180,7 @@ function gameOver(){
     
     var home = document.getElementById("home-restart");
     modal.style.display = "block";
+    
     var scoreText = document.getElementById("modalText4");
     var finalScore = document.createTextNode(`${score}`);
     scoreText.appendChild(finalScore);
@@ -232,7 +233,7 @@ async function hasPrevScore(){
         return;
     }
     var youDied = document.getElementById("modalText0");
-    youDied.style.color = "red";
+    youDied.style.color = "#B85128";
     var diedBanner = document.createTextNode(`${user}, you DIED.`);
     youDied.appendChild(diedBanner);
     
